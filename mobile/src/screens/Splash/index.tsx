@@ -1,30 +1,36 @@
 import React, { useEffect } from 'react';
-import { useNavigation } from '@react-navigation/core';
 
 import BrandSvg from '../../assets/brand.svg';
 import LogoSvg from '../../assets/logo.svg';
 
-import Animated, { 
-  useSharedValue, 
-  useAnimatedStyle,
+import Animated, {
+  useAnimatedStyle, 
+  useSharedValue,
   withTiming,
-  interpolate,  
+  interpolate,
   Extrapolate,
   runOnJS
-}  from 'react-native-reanimated';
+} from 'react-native-reanimated';
 
-import {
-  Container
-} from './styles';
+import * as S from './styles';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../Home';
 
-export function Splash(){  
+type NextScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Splash'
+>;
+
+type NextScreenProps = {
+  navigation: NextScreenNavigationProp;
+}
+
+export function Splash({ navigation } : NextScreenProps){  
   const splashAnimation = useSharedValue(0);
-
-  const navigation = useNavigation();
 
   const brandStyle = useAnimatedStyle(() => {
     return {
-      opacity: interpolate(splashAnimation.value, [0, 50], [1,0]),
+      opacity: interpolate(splashAnimation.value, [0, 50], [1, 0]),
       transform: [
         {
           translateX: interpolate(splashAnimation.value,
@@ -42,18 +48,18 @@ export function Splash(){
       opacity: interpolate(splashAnimation.value, [0, 25, 50], [0, .3, 1]),
       transform: [
         {
-          translateX: interpolate(splashAnimation.value, 
+          translateX: interpolate(splashAnimation.value,
             [0, 50],
             [-50, 0],
             Extrapolate.CLAMP
           )
         }
-      ]      
+      ],
     }
   });
 
-  function startApp() {
-    navigation.navigate('SignIn');    
+  const startApp = () => {
+    navigation.navigate('Home');
   }
 
   useEffect(() => {
@@ -65,17 +71,18 @@ export function Splash(){
         runOnJS(startApp)();
       }
     );
-  },[]);
+  }, [])
 
   return (
-    <Container>
-      <Animated.View style={[brandStyle, {position: 'absolute'}]}>
+    <S.Container>
+      <Animated.View style={[brandStyle, {position: 'absolute'}]} >
         <BrandSvg width={80} height={50} />
       </Animated.View>
 
-      <Animated.View style={[logoStyle, {position: 'absolute'}]}>
+      <Animated.View style={[logoStyle, {position: 'absolute'}]} >
         <LogoSvg width={180} height={20} />
       </Animated.View>
-    </Container>
+
+    </S.Container>
   );
 }

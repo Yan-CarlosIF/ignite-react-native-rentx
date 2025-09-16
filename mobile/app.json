@@ -1,9 +1,9 @@
 {
-  "name": "rentx",
-  "displayName": "rentx",
+  "name": "rentX",
+  "displayName": "rentX",
   "expo": {
-    "name": "rentx",
-    "slug": "rentx",
+    "name": "rentX",
+    "slug": "rentX",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
